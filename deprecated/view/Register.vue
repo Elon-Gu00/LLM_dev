@@ -10,7 +10,7 @@ import {
     checkEmailCodeService,
     findUserByEmail,
     sendEmailCodeServiceEN
-} from "@/api/userApis.js"
+} from "@/apis/userApis.js"
 import {ElMessage} from 'element-plus'
 import {onBeforeRouteUpdate} from "vue-router";
 

@@ -36,7 +36,7 @@
 import {reactive, ref} from "vue";
 import {useRouter} from "vue-router";
 import {ElMessage, ElNotification} from "element-plus";
-import {UserLogin} from "@/services/User/LoginApi.js";
+import {UserLogin} from "@/deprecated/services/User/LoginApi.js";
 
 const ruleFormRef = ref();
 const router = useRouter();
