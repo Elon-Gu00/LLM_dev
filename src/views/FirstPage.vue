@@ -1,10 +1,10 @@
 <script setup>
-    import Login from "@/components/Login.vue";
+    import Login from "@/views/Login.vue";
     import { ref } from "vue";
     import {ElMessage} from "element-plus";
-    import IdentitySelect from "@/components/IdentitySelect.vue";
+    import IdentitySelect from "@/views/IdentitySelect.vue";
 
-    const isLoginWindowVisible = ref(false)
+    const isLoginWindowVisible = ref(true)
     const identity = ref([])
     const isIdentityWindowVisible = ref(false)
     const onSuccess = (ide) => {

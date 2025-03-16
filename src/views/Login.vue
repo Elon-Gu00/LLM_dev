@@ -30,7 +30,8 @@
         })
     }
     const login = async () => {
-        const result = await apiLogin(loginData.value.username, await toSHA256(loginData.value.password))
+        const pwd = loginData.value.password
+        const result = await apiLogin(loginData.value.username, await toSHA256(pwd))
         if (result.code === 1) {
             localStorage.setItem("token", result.data.token)
             localStorage.setItem("nickname", result.data.nickname)

@@ -9,16 +9,20 @@
             type: Array
         }
     })
+    const go = (ide) => {
+        localStorage.setItem("identity", ide)
+        router.push('/' + ide)
+    }
     onBeforeMount(() => {
         if (props.identity.length === 1) {
-            router.push('/' + props.identity)
+            go(props.identity[0])
         }
     })
 </script>
 
 <template>
     <div class="identity-select-main">
-        <div v-for="ide in props.identity" class="identity-select-item" @click="router.push('/' + ide)">
+        <div v-for="ide in props.identity" class="identity-select-item" @click="go(ide)">
             <span>{{ identityToChinese(ide) }}</span>
         </div>
     </div>
