@@ -14,7 +14,6 @@
             emits('search', keyword)
         }
     }
-
 </script>
 
 <template>
@@ -22,7 +21,7 @@
         <el-input v-model="keyword" type="text" size="large" :placeholder="placeholder">
             <template #append>
                 <div class="search-button" @click="checkInput">
-                    <el-icon size="16"><Search /></el-icon>
+                    <el-icon size="20"><Search /></el-icon>
                 </div>
             </template>
         </el-input>
@@ -38,17 +37,21 @@
     padding: 0;
     border-top-right-radius: 19px;
     border-bottom-right-radius: 19px;
+    background-color: var(--el-color-primary-light-9);
+    transition: 0.3s;
 }
 .search-bar:deep(.el-input-group__append):hover {
-    opacity: 0.7;
+    color: var(--el-color-primary);
+    background-color: var(--el-color-primary-light-7);
 }
 .search-button {
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    color: var(--el-color-black);
+    color: var(--el-color-info-dark-2);
     width: 60px;
+    padding-right: 8px;
 }
 
 </style>
