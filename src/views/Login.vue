@@ -1,5 +1,5 @@
 <script setup>
-    import { ref } from "vue"
+    import { ref, onBeforeMount } from "vue"
     import { User, Lock } from "@element-plus/icons-vue"
     import { apiLogin } from "@/apis/userApis.js"
     import {toSHA256} from "@/utils/index.js";
@@ -47,6 +47,13 @@
         }
         else emit('error')
     }
+    onBeforeMount(() => {
+        const token = localStorage.getItem("token")
+        const identity = localStorage.getItem("identity")
+        if (token !== null && identity !== null) {
+            emit('success', [identity])
+        }
+    })
 
 </script>
 

@@ -1,11 +1,12 @@
 <script setup>
 
     import {ref} from "vue"
-    import {Menu, Search} from "@element-plus/icons-vue"
+    import {ArrowLeft, ArrowRight, Menu, Search, Setting, User} from "@element-plus/icons-vue"
     import SearchBar from "@/components/SearchBar.vue";
     import {apiSearchCourse} from "@/apis/courseApis.js";
     import {useSearchResultStore} from "@/stores/index.js";
     import {router} from "@/router/index.js";
+    import {identityToChinese} from "../utils/index.js";
 
     const isCollapse = ref(true)
     const props = defineProps({
@@ -23,7 +24,6 @@
         if (result.code === 1) {
             const courseStore = useSearchResultStore()
             courseStore.setCourseInfo(result.data)
-            console.log(await courseStore.courseInfo)
             await router.push(router.currentRoute.value.path + '/course/search')
         }
     }
@@ -33,23 +33,24 @@
 <template>
     <el-container class="main-container">
         <el-header  class="page-header">
-            <div class="logo">
+            <div class="logo" @click="router.push('/')">
                 <span>Logo</span>
             </div>
             <div class="search-area">
                 <search-bar placeholder="搜索课程" @search="search"/>
             </div>
             <div class="info-area">
-                <span>{{ nickname }}</span>
+                <el-tag>{{ identityToChinese(identity) }}</el-tag>
+                <el-avatar :size="32"><User /></el-avatar>
             </div>
         </el-header>
         <el-container>
-            <el-aside :width="isCollapse ? '64': '300'" class="main-aside">
-                <el-menu v-if="identity === 'teacher'" :collapse="isCollapse" router :collapse-transition="false">
-                    <div class="collapse-button" @click="isCollapse = !isCollapse">
-                        <el-icon v-if="isCollapse"><Menu /></el-icon>
-                        <span v-if="!isCollapse">Logo</span>
-                    </div>
+            <el-aside v-show="isCollapse" width="60" class="main-aside">
+                <el-menu v-if="identity === 'teacher'" router>
+<!--                    <div class="collapse-button" @click="isCollapse = !isCollapse">-->
+<!--                        <el-icon v-if="isCollapse"><Menu /></el-icon>-->
+<!--                        <span v-if="!isCollapse">Logo</span>-->
+<!--                    </div>-->
                     <el-menu-item index="/teacher">
                         <el-icon><Menu /></el-icon>
                         <template #title><span>主页</span></template>
@@ -107,8 +108,24 @@
                         <template #title><span>作业</span></template>
                     </el-menu-item>
                 </el-menu>
+                <el-menu router :collapse-transition="false">
+                    <el-menu-item :index="router.currentRoute.value.path + '/settings'">
+                        <el-icon><Setting /></el-icon>
+                        <template #title>设置</template>
+                    </el-menu-item>
+                    <el-menu-item :index="router.currentRoute.value.path + '/info'">
+                        <el-icon><User/></el-icon>
+                        <template #title>个人信息</template>
+                    </el-menu-item>
+                </el-menu>
             </el-aside>
-            <el-main>
+            <el-aside width="12" class="collapse-aside">
+                <div class="collapse-button" @click="isCollapse = !isCollapse">
+                    <el-icon v-if="isCollapse"><ArrowLeft /></el-icon>
+                    <el-icon v-if="!isCollapse"><ArrowRight /></el-icon>
+                </div>
+            </el-aside>
+            <el-main class="main-body">
                 <slot name="default"/>
             </el-main>
         </el-container>
@@ -120,8 +137,9 @@
         border-right: none;
         background-color: transparent;
     }
-    .el-menu--vertical {
-        --el-menu-vertival-width: 64px;
+    .el-menu-item {
+        margin: 8px 0 8px 12px;
+        border-radius: 12px;
     }
     .main-container {
         height: calc(100vh);
@@ -132,6 +150,7 @@
         justify-content: space-between;
         align-items: center;
         border-bottom: 1px solid var(--el-border-color-light);
+        cursor: default;
     }
     .logo {
         font-size: 30px;
@@ -140,14 +159,41 @@
     .search-area {
         width: 600px;
     }
-    .collapse-button {
-        cursor: pointer;
-        height: 56px;
+    .info-area {
         display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+    }
+    .nickname {
+        font-size: 18px;
+    }
+    .collapse-aside {
+        display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
+        border-right: 1px solid var(--el-border-color-light);
+    }
+    .collapse-button {
+        cursor: pointer;
+        height: 80px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 6px;
+    }
+    .collapse-button:hover {
+        background-color: var(--el-color-primary-light-9);
     }
     .main-aside {
-        border-right: 1px solid var(--el-border-color-light);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    .main-body {
+        padding: 0;
+        height: calc(100vh - 60px);
     }
 </style>

@@ -6,10 +6,9 @@ const nickname = localStorage.getItem('nickname')
 
 <template>
     <main-body :identity="identity" :nickname="nickname">
-        <div>
-            teacher
-        </div>
-        <router-view></router-view>
+        <el-scrollbar>
+            <router-view></router-view>
+        </el-scrollbar>
     </main-body>
 </template>
 

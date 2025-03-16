@@ -9,6 +9,11 @@
     })
     const keyword = ref("")
     const emits = defineEmits(['search'])
+    const checkInput = () => {
+        if (keyword.value.trim().length !== 0) {
+            emits('search', keyword)
+        }
+    }
 
 </script>
 
@@ -16,7 +21,7 @@
     <div class="search-bar">
         <el-input v-model="keyword" type="text" size="large" :placeholder="placeholder">
             <template #append>
-                <div class="search-button" @click="emits('search', keyword)">
+                <div class="search-button" @click="checkInput">
                     <el-icon size="16"><Search /></el-icon>
                 </div>
             </template>
@@ -33,6 +38,9 @@
     padding: 0;
     border-top-right-radius: 19px;
     border-bottom-right-radius: 19px;
+}
+.search-bar:deep(.el-input-group__append):hover {
+    opacity: 0.7;
 }
 .search-button {
     display: flex;
