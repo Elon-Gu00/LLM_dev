@@ -185,11 +185,13 @@
         width: calc(100vw);
     }
     .page-header {
+        padding: 0 40px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         border-bottom: 1px solid var(--el-border-color-light);
         cursor: default;
+        background-color: var(--el-fill-color-extra-light);
     }
     .logo {
         font-size: 30px;
@@ -209,6 +211,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
+        background-color: var(--el-fill-color-extra-light);
     }
     .collapse-aside-border {
         border-right: 1px solid var(--el-border-color-light);
@@ -241,6 +244,7 @@
         flex-direction: column;
         justify-content: space-between;
         height: calc(100vh - 60px);
+        background-color: var(--el-fill-color-extra-light);
     }
     .main-body {
         padding: 0;
