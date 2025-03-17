@@ -1,4 +1,4 @@
-import apiClient from "@/services/api.js";
+import apiClient from "@/deprecated/services/api.js";
 
 export const getCourse = async (id)=>{
     return apiClient.get(`/course/student/list?id=${id}`,{

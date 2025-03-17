@@ -47,9 +47,9 @@
 <script setup>
 import { ElDivider } from 'element-plus'
 import {onMounted,ref,onBeforeMount} from "vue";
-import {getCourse} from "@/services/student/studentCourseApi.js";
+import {getCourse} from "@/deprecated/services/student/studentCourseApi.js";
 import {More, MoreFilled, Right, Search} from "@element-plus/icons-vue";
-import {getCourseInfo, searchCourse_in_name} from "@/services/course/courseApi.js";
+import {getCourseInfo, searchCourse_in_name} from "@/deprecated/services/course/courseApi.js";
 import router from "@/router/index.js";
 
 const studentInfo = []

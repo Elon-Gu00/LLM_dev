@@ -1,5 +1,5 @@
 import axios from "axios";
-import router from "@/router/index.js";
+import router from "@/deprecated/router/index.js";
 
 const apiClient = axios.create({
     baseURL:"/api",
