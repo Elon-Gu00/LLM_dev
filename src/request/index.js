@@ -10,7 +10,7 @@ instance.interceptors.request.use(
         if (!config.url.includes("/user/login")) {
             config.headers.Authorization = localStorage.getItem("token")
         }
-        console.log(config.data)
+        console.log(config.url, config.data)
         return config
     },
     error => {

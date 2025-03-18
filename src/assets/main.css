@@ -4,3 +4,19 @@
   margin: 0;
   max-width: calc(100vw);
 }
+
+.height-level-2 {
+  height: calc(100vh - 60px);
+}
+
+.height-level-3 {
+  height: calc(100vh - 111px);
+}
+
+.height-level-4 {
+  height: calc(100vh - 163px);
+}
+
+.border-bottom {
+  border-bottom: 1px solid var(--el-border-color-light);
+}

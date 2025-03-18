@@ -8,3 +8,11 @@ export const useSearchResultStore = defineStore('searchResult', () => {
     }
     return {courseInfo, setCourseInfo}
 })
+
+export const useQuestionRefreshStore = defineStore('questionRefresh', () => {
+    const status = ref(true)
+    function changeStatus() {
+        status.value = !status.value
+    }
+    return {status, changeStatus}
+})

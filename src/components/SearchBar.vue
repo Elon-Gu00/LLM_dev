@@ -4,6 +4,11 @@
     const props = defineProps({
         placeholder: {
             type: String
+        },
+        size: {
+            type: String,
+            required: true,
+            default: "default"
         }
     })
     const keyword = ref("")
@@ -17,10 +22,12 @@
 
 <template>
     <div class="search-bar">
-        <el-input v-model="keyword" type="text" size="large" :placeholder="placeholder">
+        <el-input v-model="keyword" type="text" :size="size" :placeholder="placeholder">
             <template #append>
-                <div class="search-button" @click="checkInput">
-                    <el-icon size="20"><Search /></el-icon>
+                <div class="search-button"
+                     :class="{'search-button-large': size === 'large', 'search-button-default': size === 'default', 'search-button-small': size === 'small'}"
+                     @click="checkInput">
+                    <el-icon><Search /></el-icon>
                 </div>
             </template>
         </el-input>
@@ -42,6 +49,7 @@
     .search-bar:deep(.el-input-group__append):hover {
         color: var(--el-color-primary);
         background-color: var(--el-color-primary-light-7);
+        border: 1px solid var(--el-color-primary);
     }
     .search-button {
         display: flex;
@@ -49,7 +57,20 @@
         align-items: center;
         cursor: pointer;
         color: var(--el-color-info-dark-2);
+    }
+    .search-button-large {
         width: 60px;
         padding-right: 6px;
+        font-size: 20px;
+    }
+    .search-button-default {
+        width: 40px;
+        padding-right: 4px;
+        font-size: 16px;
+    }
+    .search-button-small {
+        width: 20px;
+        padding-right: 2px;
+        font-size: 12px;
     }
 </style>

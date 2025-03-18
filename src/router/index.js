@@ -1,7 +1,11 @@
-import {createRouter, createWebHistory} from "vue-router";
-import FirstPage from "@/views/FirstPage.vue";
+import {createRouter, createWebHistory} from "vue-router"
+import FirstPage from "@/views/FirstPage.vue"
 import HomePage from "@/views/HomePage.vue"
-import Login from "@/views/Login.vue";
+import Login from "@/views/Login.vue"
+import TeacherQuestionPage from "@/views/teacher/question/TeacherQuestionPage.vue"
+import EmptyQuestionPage from "@/views/teacher/question/EmptyQuestionPage.vue"
+import AddQuestionPage from "@/views/teacher/question/AddQuestionPage.vue"
+import EditQuestionPage from "@/views/teacher/question/EditQuestionPage.vue"
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -15,15 +19,25 @@ export const router = createRouter({
             component: HomePage,
             children: [
                 {
-                    path: 'course',
-                    children: [
-                        {
-                            path: 'search',
-                        }
-                    ]
+                    path: 'course'
                 },
                 {
-                    path: 'question'
+                    path: 'question',
+                    component: TeacherQuestionPage,
+                    children: [
+                        {
+                            path: '',
+                            component: EmptyQuestionPage
+                        },
+                        {
+                            path: 'add/:type',
+                            component: AddQuestionPage
+                        },
+                        {
+                            path: 'edit/:type/:questionId',
+                            component: EditQuestionPage
+                        }
+                    ]
                 },
                 {
                     path: 'assignment'

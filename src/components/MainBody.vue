@@ -1,6 +1,6 @@
 <script setup>
 
-    import {ref} from "vue"
+    import {ref, onMounted} from "vue"
     import {
         ArrowLeft,
         ArrowLeftBold,
@@ -50,7 +50,7 @@
                 <span>Logo</span>
             </div>
             <div class="search-area">
-                <search-bar placeholder="搜索课程" @search="search"/>
+                <search-bar placeholder="搜索课程" size="large" @search="search"/>
             </div>
             <div class="info-area">
                 <el-tag>{{ identityToChinese(identity) }}</el-tag>
@@ -58,93 +58,91 @@
             </div>
         </el-header>
         <el-container>
-            <el-scrollbar>
-                <el-aside v-show="!isCollapse" width="60" class="main-aside">
-                    <el-menu v-if="identity === 'teacher'" router :default-active="router.currentRoute.value.path">
-                        <!--                    <div class="collapse-button" @click="isCollapse = !isCollapse">-->
-                        <!--                        <el-icon v-if="isCollapse"><Menu /></el-icon>-->
-                        <!--                        <span v-if="!isCollapse">Logo</span>-->
-                        <!--                    </div>-->
-                        <el-menu-item index="/teacher">
-                            <el-icon><Menu /></el-icon>
-                            <template #title><span>主页</span></template>
-                        </el-menu-item>
-                        <el-menu-item index="/teacher/course">
-                            <el-icon><Menu /></el-icon>
-                            <template #title><span>课程</span></template>
-                        </el-menu-item>
-                        <el-menu-item index="/teacher/question">
-                            <el-icon><Menu /></el-icon>
-                            <template #title><span>题库</span></template>
-                        </el-menu-item>
-                        <el-menu-item index="/teacher/assignment">
-                            <el-icon><Menu /></el-icon>
-                            <template #title><span>作业模版</span></template>
-                        </el-menu-item>
-                        <el-menu-item index="/teacher/correct">
-                            <el-icon><Menu /></el-icon>
-                            <template #title><span>批改作业</span></template>
-                        </el-menu-item>
-                    </el-menu>
-                    <el-menu v-if="identity === 'student'" router :default-active="router.currentRoute.value.path">
-                        <el-menu-item index="/student">
-                            <el-icon><Menu /></el-icon>
-                            <template #title><span>主页</span></template>
-                        </el-menu-item>
-                        <el-menu-item index="/student/course">
-                            <el-icon><Menu /></el-icon>
-                            <template #title><span>课程</span></template>
-                        </el-menu-item>
-                        <el-menu-item index="/teacher/assignment">
-                            <el-icon><Menu /></el-icon>
-                            <template #title><span>作业</span></template>
-                        </el-menu-item>
-                    </el-menu>
-                    <el-menu v-if="identity === 'administrator'" router :default-active="router.currentRoute.value.path">
-                        <el-menu-item index="/administrator">
-                            <el-icon><Menu /></el-icon>
-                            <template #title><span>主页</span></template>
-                        </el-menu-item>
-                        <el-menu-item index="/administrator/course">
-                            <el-icon><Menu /></el-icon>
-                            <template #title><span>课程</span></template>
-                        </el-menu-item>
-                        <el-menu-item index="/administrator/class">
-                            <el-icon><Menu /></el-icon>
-                            <template #title><span>班级</span></template>
-                        </el-menu-item>
-                        <el-menu-item index="/administrator/question">
-                            <el-icon><Menu /></el-icon>
-                            <template #title><span>题库</span></template>
-                        </el-menu-item>
-                        <el-menu-item index="/administrator/assignment">
-                            <el-icon><Menu /></el-icon>
-                            <template #title><span>作业</span></template>
-                        </el-menu-item>
-                    </el-menu>
-                    <el-menu router>
-                        <el-dropdown trigger="click">
-                            <el-menu-item>
-                                <el-icon><User/></el-icon>
-                                <template #title>个人信息</template>
+            <el-aside v-show="!isCollapse" width="60">
+                <el-scrollbar>
+                    <div class="main-aside height-level-2">
+                        <el-menu v-if="identity === 'teacher'" router :default-active="router.currentRoute.value.path">
+                            <el-menu-item index="/teacher">
+                                <el-icon><Menu /></el-icon>
+                                <template #title><span>主页</span></template>
                             </el-menu-item>
-                            <template #dropdown>
-                                <div class="dropdown-item nickname">
-                                    <span>{{ nickname }}</span>
-                                </div>
-                                <div class="dropdown-item">
-                                    <el-icon><Setting /></el-icon>
-                                    <span>设置</span>
-                                </div>
-                                <div class="dropdown-item" @click="logout">
-                                    <el-icon><SwitchButton /></el-icon>
-                                    <span>退出登录</span>
-                                </div>
-                            </template>
-                        </el-dropdown>
-                    </el-menu>
-                </el-aside>
-            </el-scrollbar>
+                            <el-menu-item index="/teacher/course">
+                                <el-icon><Menu /></el-icon>
+                                <template #title><span>课程</span></template>
+                            </el-menu-item>
+                            <el-menu-item index="/teacher/question">
+                                <el-icon><Menu /></el-icon>
+                                <template #title><span>题库</span></template>
+                            </el-menu-item>
+                            <el-menu-item index="/teacher/assignment">
+                                <el-icon><Menu /></el-icon>
+                                <template #title><span>作业模版</span></template>
+                            </el-menu-item>
+                            <el-menu-item index="/teacher/correct">
+                                <el-icon><Menu /></el-icon>
+                                <template #title><span>批改作业</span></template>
+                            </el-menu-item>
+                        </el-menu>
+                        <el-menu v-if="identity === 'student'" router :default-active="router.currentRoute.value.path">
+                            <el-menu-item index="/student">
+                                <el-icon><Menu /></el-icon>
+                                <template #title><span>主页</span></template>
+                            </el-menu-item>
+                            <el-menu-item index="/student/course">
+                                <el-icon><Menu /></el-icon>
+                                <template #title><span>课程</span></template>
+                            </el-menu-item>
+                            <el-menu-item index="/teacher/assignment">
+                                <el-icon><Menu /></el-icon>
+                                <template #title><span>作业</span></template>
+                            </el-menu-item>
+                        </el-menu>
+                        <el-menu v-if="identity === 'administrator'" router :default-active="router.currentRoute.value.path">
+                            <el-menu-item index="/administrator">
+                                <el-icon><Menu /></el-icon>
+                                <template #title><span>主页</span></template>
+                            </el-menu-item>
+                            <el-menu-item index="/administrator/course">
+                                <el-icon><Menu /></el-icon>
+                                <template #title><span>课程</span></template>
+                            </el-menu-item>
+                            <el-menu-item index="/administrator/class">
+                                <el-icon><Menu /></el-icon>
+                                <template #title><span>班级</span></template>
+                            </el-menu-item>
+                            <el-menu-item index="/administrator/question">
+                                <el-icon><Menu /></el-icon>
+                                <template #title><span>题库</span></template>
+                            </el-menu-item>
+                            <el-menu-item index="/administrator/assignment">
+                                <el-icon><Menu /></el-icon>
+                                <template #title><span>作业</span></template>
+                            </el-menu-item>
+                        </el-menu>
+                        <el-menu router>
+                            <el-dropdown trigger="click">
+                                <el-menu-item>
+                                    <el-icon><User/></el-icon>
+                                    <template #title>个人信息</template>
+                                </el-menu-item>
+                                <template #dropdown>
+                                    <div class="dropdown-item nickname">
+                                        <span>{{ nickname }}</span>
+                                    </div>
+                                    <div class="dropdown-item">
+                                        <el-icon><Setting /></el-icon>
+                                        <span>设置</span>
+                                    </div>
+                                    <div class="dropdown-item" @click="logout">
+                                        <el-icon><SwitchButton /></el-icon>
+                                        <span>退出登录</span>
+                                    </div>
+                                </template>
+                            </el-dropdown>
+                        </el-menu>
+                    </div>
+                </el-scrollbar>
+            </el-aside>
             <el-aside width="12" class="collapse-aside collapse-aside-border" v-show="!isCollapse">
                 <div class="collapse-button left-radius" @click="isCollapse = !isCollapse">
                     <el-icon v-if="!isCollapse"><ArrowLeftBold /></el-icon>
