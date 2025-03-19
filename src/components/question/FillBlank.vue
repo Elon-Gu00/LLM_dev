@@ -8,21 +8,8 @@
     const questionData = ref({
         title: "",
         description: "",
-        option: [],
         answer: ""
     })
-    const addOption = () => {
-        if (questionData.value.option.length < 6) {
-            questionData.value.option.push("")
-        }
-        else {
-            ElMessage.warning("选项太多啦! >_<")
-        }
-    }
-    const removeOption = (index) => {
-        questionData.value.option.splice(index, 1)
-        questionData.value.answer = ""
-    }
     const emits = defineEmits(['save', 'delete'])
     const save = (el) => {
         if (!el) return
@@ -30,19 +17,24 @@
             if (valid) {
                 const content = JSON.stringify({
                     title: questionData.value.title,
-                    description: questionData.value.description,
-                    option: questionData.value.option.filter(item => item !== "")
+                    description: questionData.value.description
                 })
                 const answer = JSON.stringify({
                     answer: questionData.value.answer
                 })
+                console.log(content)
                 emits('save', content, answer, questionId.value)
             }
         })
     }
-    const validateOption = (rule, value, callback) => {
-        if (value.filter(item => item !== "").length <= 0) {
-            callback(new Error("请添加选项"))
+    const matchBlankAndAnswer = (rule, value, callback) => {
+        const blanks = questionData.value.description.split(') ____').length - 1
+        let answers = questionData.value.answer.split('|').length
+        if (questionData.value.answer !== '' && answers !== '') {
+            answers = 1
+        }
+        if (blanks !== answers) {
+            callback(Error("空与答案个数不匹配"))
         }
         else {
             callback()
@@ -56,11 +48,8 @@
         description: [
             { required: true, message: "请输入题目描述", trigger: 'blur' }
         ],
-        option: [
-            { required: true, validator: validateOption }
-        ],
         answer: [
-            { required: true, message: "请输入题目答案", trigger: 'blur' }
+            { required: true, validator: matchBlankAndAnswer, trigger: 'blur' }
         ]
     }
     const getQuestionInfo = async () => {
@@ -72,7 +61,6 @@
                     const content = JSON.parse(data.content)
                     questionData.value.title = content.title
                     questionData.value.description = content.description
-                    questionData.value.option = content.option
                     questionData.value.answer = JSON.parse(data.answer).answer
                 }
                 else {
@@ -95,6 +83,20 @@
     })
     const del = () => {
         emits('delete', questionId.value)
+    }
+    const addBlank = () => {
+        const ind = questionData.value.description.split(') ____').length
+        questionData.value.description += ('(' + ind + ') ____ ')
+    }
+    const addSplit = () => {
+        const blanks = questionData.value.description.split(') ____').length - 1
+        const answers = questionData.value.answer.split('|').length
+        if (blanks > answers) {
+            questionData.value.answer += '|'
+        }
+        else {
+            ElMessage.warning("答案比空多啦 >_<")
+        }
     }
 </script>
 
@@ -122,45 +124,27 @@
                     <template #label>
                         <div class="from-label">
                             <span>题目描述</span>
+                            <div class="option-button add" @click="addBlank">
+                                <el-icon><Plus /></el-icon>
+                                <span>待填空</span>
+                            </div>
                         </div>
                     </template>
                     <el-input v-model="questionData.description" type="textarea" :rows="questionData.description.split('\n').length + 1" placeholder="题目描述" maxlength="300" show-word-limit resize="none"/>
-                </el-form-item>
-                <el-form-item prop="option">
-                    <template #label>
-                        <div class="from-label">
-                            <span>选项</span>
-                        </div>
-                    </template>
-                    <div class="options">
-                        <div class="option" v-for="(op, index) in questionData.option">
-                            <div class="option-index">
-                                <span>{{ numberToLetter(index) }}</span>
-                            </div>
-                            <el-input v-model="questionData.option[index]" placeholder="选项" maxlength="30" show-word-limit clearable/>
-                            <div class="option-button remove" @click="removeOption(index)">
-                                <el-icon><Minus /></el-icon>
-                                <span>移除</span>
-                            </div>
-                        </div>
-                        <div class="option-button add" @click="addOption">
-                            <el-icon><Plus /></el-icon>
-                            <span>添加</span>
-                        </div>
-                    </div>
                 </el-form-item>
                 <el-form-item prop="answer">
                     <template #label>
                         <div class="from-label">
                             <span>答案</span>
+                            <div class="option-button add" @click="addSplit">
+                                <el-icon><Plus /></el-icon>
+                                <span>分隔</span>
+                            </div>
                         </div>
                     </template>
-                    <el-select class="answer" v-model="questionData.answer" placeholder="未选择答案">
-                        <template #empty>
-                            <span>无选项</span>
-                        </template>
-                        <el-option v-for="(op, index) in questionData.option.filter(item => item !== '')" :value="numberToLetter(index)"/>
-                    </el-select>
+                    <div class="options">
+                        <el-input v-model="questionData.answer" type="text" placeholder="答案" />
+                    </div>
                 </el-form-item>
             </el-form>
         </el-aside>
@@ -184,27 +168,19 @@
                     {{ p }}
                 </div>
             </div>
-            <div class="preview-item" v-if="questionData.option.filter(i => i !== '').length > 0">
-                <div class="from-label">
-                    <span>选项</span>
-                </div>
-                <div>
-                    <div class="preview-option" v-for="(op, index) in questionData.option">
-                        <div class="option-index">
-                            <span>{{ numberToLetter(index) }}</span>
-                        </div>
-                        <div class="option-info">
-                            <span>{{ op }}</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="preview-item" v-if="questionData.answer !== ''">
                 <div class="from-label">
                     <span>答案</span>
                 </div>
-                <div class="option-index">
-                    <span>{{ questionData.answer }}</span>
+                <div class="options">
+                    <div v-for="(ans, index) in questionData.answer.split('|')" class="option">
+                        <div class="option-index">
+                            <span>({{ index + 1 }})</span>
+                        </div>
+                        <div>
+                            <span>{{ ans }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </el-aside>
@@ -230,6 +206,10 @@
         font-weight: bold;
         color: var(--el-color-info-dark-2);
         margin-bottom: 5px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        gap: 10px;
     }
     .options {
         display: flex;
@@ -239,12 +219,12 @@
     }
     .option {
         display: flex;
-        justify-content: center;
+        justify-content: left;
         align-items: center;
         gap: 10px;
     }
     .option-index {
-        font-size: 18px;
+        font-size: 16px;
         color: var(--el-color-info-dark-2);
         font-weight: bold;
         text-align: center;
@@ -313,5 +293,8 @@
     .preview-title {
         font-size: 20px;
         font-weight: bold;
+    }
+    .hint {
+        color: var(--el-color-info);
     }
 </style>

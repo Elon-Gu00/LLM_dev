@@ -36,13 +36,13 @@ import {useQuestionRefreshStore} from "@/stores/index.js";
                     questionList.value.choice.push(item)
                 }
                 if (item.questionType === 'fill-blank') {
-                    questionList.value.choice.push(item)
+                    questionList.value.fillBlank.push(item)
                 }
                 if (item.questionType === 'essay') {
-                    questionList.value.choice.push(item)
+                    questionList.value.essay.push(item)
                 }
                 if (item.questionType === 'programming') {
-                    questionList.value.choice.push(item)
+                    questionList.value.programming.push(item)
                 }
             })
         }
@@ -152,7 +152,7 @@ import {useQuestionRefreshStore} from "@/stores/index.js";
         padding: 0 12px;
         margin-bottom: 10px;
         font-size: 18px;
-        font-weight: bold;
+        font-weight: bolder;
         height: 50px;
         line-height: 50px;
         display: inline-block;
@@ -186,7 +186,7 @@ import {useQuestionRefreshStore} from "@/stores/index.js";
     .el-menu-item {
         border-radius: 12px;
     }
-    .aside-list-body:deep(.el-sub-menu__title) {
+    :deep(.el-sub-menu__title) {
         border-radius: 12px;
         font-size: 15px;
         font-weight: bold;

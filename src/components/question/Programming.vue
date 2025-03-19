@@ -58,9 +58,6 @@
         ],
         option: [
             { required: true, validator: validateOption }
-        ],
-        answer: [
-            { required: true, message: "请输入题目答案", trigger: 'blur' }
         ]
     }
     const getQuestionInfo = async () => {
@@ -118,7 +115,7 @@
                     </template>
                     <el-input v-model="questionData.title" placeholder="题目名称" maxlength="30" show-word-limit clearable/>
                 </el-form-item>
-                <el-form-item prop="description">
+                <el-form-item prop="question">
                     <template #label>
                         <div class="from-label">
                             <span>题目描述</span>
@@ -149,7 +146,7 @@
                         </div>
                     </div>
                 </el-form-item>
-                <el-form-item prop="answer">
+                <el-form-item>
                     <template #label>
                         <div class="from-label">
                             <span>答案</span>

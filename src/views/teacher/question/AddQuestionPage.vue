@@ -4,10 +4,12 @@
     import PageHeader from "@/components/PageHeader.vue";
     import {apiAddQuestion} from "@/apis/questionApis.js";
     import {ElMessage} from "element-plus";
-    import {defineEmits, ref} from 'vue'
+    import {defineEmits, ref, watch} from 'vue'
     import {questionTypeToChinese} from "@/utils/index.js";
     import {onBeforeRouteLeave, onBeforeRouteUpdate} from "vue-router";
     import {useQuestionRefreshStore} from "@/stores/index.js";
+    import FillBlank from "@/components/question/FillBlank.vue";
+    import Essay from "@/components/question/Essay.vue";
 
     const type = ref(router.currentRoute.value.params['type'])
     const refresh = useQuestionRefreshStore()
@@ -36,6 +38,11 @@
         }
         next()
     })
+    watch(router.currentRoute, (value, oldValue, onCleanup) => {
+        if (value.params['type']) {
+            type.value = value.params['type']
+        }
+    })
 </script>
 
 <template>
@@ -43,13 +50,13 @@
     <div class="height-level-3">
         <el-scrollbar>
             <div v-if="type === 'choice'">
-                <Choice mode="edit" @save="submit"/>
+                <choice @save="submit" />
             </div>
             <div v-if="type === 'fill-blank'">
-                填空题
+                <fill-blank @save="submit" />
             </div>
             <div v-if="type === 'essay'">
-                问答题
+                <essay @save="submit" />
             </div>
             <div v-if="type === 'programming'">
                 编程题
