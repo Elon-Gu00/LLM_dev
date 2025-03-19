@@ -1,6 +1,6 @@
 <script setup>
     import {router} from "@/router/index.js";
-    import Choice from "@/components/question/Choice.vue";
+    import Choice from "@/components/question/ChoiceEditor.vue";
     import PageHeader from "@/components/PageHeader.vue";
     import {apiAddQuestion} from "@/apis/questionApis.js";
     import {ElMessage} from "element-plus";
@@ -8,8 +8,8 @@
     import {questionTypeToChinese} from "@/utils/index.js";
     import {onBeforeRouteLeave, onBeforeRouteUpdate} from "vue-router";
     import {useQuestionRefreshStore} from "@/stores/index.js";
-    import FillBlank from "@/components/question/FillBlank.vue";
-    import Essay from "@/components/question/Essay.vue";
+    import FillBlank from "@/components/question/FillBlankEditor.vue";
+    import Essay from "@/components/question/EssayEditor.vue";
 
     const type = ref(router.currentRoute.value.params['type'])
     const refresh = useQuestionRefreshStore()

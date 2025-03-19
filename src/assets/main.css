@@ -17,6 +17,14 @@
   height: calc(100vh - 163px);
 }
 
+.height-level-5 {
+  height: calc(100vh - 295px);
+}
+
 .border-bottom {
   border-bottom: 1px solid var(--el-border-color-light);
+}
+
+.border-right {
+  border-right: 1px solid var(--el-border-color-light);
 }

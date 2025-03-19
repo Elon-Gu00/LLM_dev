@@ -21,17 +21,15 @@
 </script>
 
 <template>
-    <div class="search-bar">
-        <el-input v-model="keyword" type="text" :size="size" :placeholder="placeholder">
-            <template #append>
-                <div class="search-button"
-                     :class="{'search-button-large': size === 'large', 'search-button-default': size === 'default', 'search-button-small': size === 'small'}"
-                     @click="checkInput">
-                    <el-icon><Search /></el-icon>
-                </div>
-            </template>
-        </el-input>
-    </div>
+    <el-input class="search-bar" v-model="keyword" type="text" :size="size" :placeholder="placeholder">
+        <template #append>
+            <div class="search-button"
+                 :class="{'search-button-large': size === 'large', 'search-button-default': size === 'default', 'search-button-small': size === 'small'}"
+                 @click="checkInput">
+                <el-icon><Search /></el-icon>
+            </div>
+        </template>
+    </el-input>
 </template>
 
 <style scoped>

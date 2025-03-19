@@ -6,6 +6,10 @@ import TeacherQuestionPage from "@/views/teacher/question/TeacherQuestionPage.vu
 import EmptyQuestionPage from "@/views/teacher/question/EmptyQuestionPage.vue"
 import AddQuestionPage from "@/views/teacher/question/AddQuestionPage.vue"
 import EditQuestionPage from "@/views/teacher/question/EditQuestionPage.vue"
+import TeacherAssignmentPage from "@/views/teacher/assignment/TeacherAssignmentPage.vue";
+import EmptyAssignmentPage from "@/views/teacher/assignment/EmptyAssignmentPage.vue";
+import AddAssignmentPage from "@/views/teacher/assignment/AddAssignmentPage.vue";
+import EditAssignmentPage from "@/views/teacher/assignment/EditAssignmentPage.vue";
 
 export const router = createRouter({
     history: createWebHistory(),
@@ -40,7 +44,22 @@ export const router = createRouter({
                     ]
                 },
                 {
-                    path: 'assignment'
+                    path: 'assignment',
+                    component: TeacherAssignmentPage,
+                    children: [
+                        {
+                            path: '',
+                            component: EmptyAssignmentPage
+                        },
+                        {
+                            path: 'add',
+                            component: AddAssignmentPage
+                        },
+                        {
+                            path: 'edit/:questionId',
+                            component: EditAssignmentPage
+                        }
+                    ]
                 },
                 {
                     path: 'correct'

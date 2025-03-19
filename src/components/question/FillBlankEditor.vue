@@ -30,8 +30,8 @@
     const matchBlankAndAnswer = (rule, value, callback) => {
         const blanks = questionData.value.description.split(') ____').length - 1
         let answers = questionData.value.answer.split('|').length
-        if (questionData.value.answer !== '' && answers !== '') {
-            answers = 1
+        if (questionData.value.answer === '') {
+            callback(Error("请输入答案"))
         }
         if (blanks !== answers) {
             callback(Error("空与答案个数不匹配"))

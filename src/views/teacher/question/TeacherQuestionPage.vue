@@ -5,7 +5,7 @@ import {ref, onMounted, watch} from "vue"
     import {router} from "@/router/index.js";
     import {apiGetQuestion} from "@/apis/questionApis.js";
     import {ElMessage} from "element-plus";
-import {useQuestionRefreshStore} from "@/stores/index.js";
+    import {useQuestionRefreshStore} from "@/stores/index.js"
     const questionList = ref({
         choice: [],
         fillBlank: [],
