@@ -41,7 +41,7 @@ import {ref, onMounted, watch} from "vue"
                     <span>作业模版库</span>
                 </div>
                 <div class="aside-search-area">
-                    <search-bar size="default" placeholder="查找作业" />
+                    <search-bar size="default" placeholder="查找作业" :disable="true"/>
                     <div class="refresh-button" @click="setAssignmentList">
                         <el-icon><Refresh /></el-icon>
                     </div>

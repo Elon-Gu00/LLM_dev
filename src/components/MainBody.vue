@@ -92,7 +92,7 @@
                                 <el-icon><Menu /></el-icon>
                                 <template #title><span>课程</span></template>
                             </el-menu-item>
-                            <el-menu-item index="/teacher/assignment">
+                            <el-menu-item index="/student/assignment">
                                 <el-icon><Menu /></el-icon>
                                 <template #title><span>作业</span></template>
                             </el-menu-item>

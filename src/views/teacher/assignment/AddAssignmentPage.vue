@@ -137,7 +137,7 @@
                             </div>
                             <div class="question-selector">
                                 <div class="question-selector-header question-item-margin">
-                                    <search-bar size="default" placeholder="搜索题目" />
+                                    <search-bar size="default" placeholder="搜索题目" :disable="true" />
                                 </div>
                                 <assignment-list-item v-for="(q, ind) in selected" class="question-item-margin" :ind="ind" @remove="removeQuestion(ind)" @score="setScore">
                                     <template #index>{{ ind + 1 }}</template>

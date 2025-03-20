@@ -9,6 +9,10 @@
             type: String,
             required: true,
             default: "default"
+        },
+        disable: {
+            type: Boolean,
+            default: false
         }
     })
     const keyword = ref("")
@@ -21,10 +25,10 @@
 </script>
 
 <template>
-    <el-input class="search-bar" v-model="keyword" type="text" :size="size" :placeholder="placeholder">
+    <el-input class="search-bar" v-model="keyword" type="text" :size="size" :placeholder="placeholder" :disabled="disable">
         <template #append>
             <div class="search-button"
-                 :class="{'search-button-large': size === 'large', 'search-button-default': size === 'default', 'search-button-small': size === 'small'}"
+                 :class="{'search-button-large': size === 'large', 'search-button-default': size === 'default', 'search-button-small': size === 'small', 'disable': disable}"
                  @click="checkInput">
                 <el-icon><Search /></el-icon>
             </div>
@@ -70,5 +74,8 @@
         width: 20px;
         padding-right: 2px;
         font-size: 12px;
+    }
+    .disable {
+        cursor: not-allowed;
     }
 </style>

@@ -69,7 +69,7 @@ import {ref, onMounted, watch} from "vue"
                     <span>题库</span>
                 </div>
                 <div class="aside-search-area">
-                    <search-bar size="default" placeholder="查找题目" />
+                    <search-bar size="default" placeholder="查找题目" :disable="true"/>
                     <div class="refresh-button" @click="setQuestionList">
                         <el-icon><Refresh /></el-icon>
                     </div>

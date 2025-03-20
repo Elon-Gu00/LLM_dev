@@ -13,12 +13,20 @@
 
 <template>
     <div class="page-header">
-        <div class="page-header-left" @click="router.back()">
-            <el-icon><Back /></el-icon>
-            <span>返回</span>
+        <div class="page-header-main">
+            <div class="page-header-left" @click="router.back()">
+                <el-icon><Back /></el-icon>
+                <span>返回</span>
+            </div>
+            <div class="page-header-content">
+                <span>{{ content }}</span>
+            </div>
+            <div>
+                <slot name="content-extra" />
+            </div>
         </div>
-        <div class="page-header-content">
-            <span>{{ content }}</span>
+        <div>
+            <slot name="last" />
         </div>
     </div>
 </template>
@@ -26,13 +34,19 @@
 <style scoped>
     .page-header {
         display: flex;
-        justify-content: left;
+        justify-content: space-between;
         align-items: center;
         padding: 10px 20px;
         gap: 20px;
         cursor: default;
         height: 30px;
         border-bottom: 1px solid var(--el-border-color-light);
+    }
+    .page-header-main {
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        gap: 20px;
     }
     .page-header-left {
         display: flex;
