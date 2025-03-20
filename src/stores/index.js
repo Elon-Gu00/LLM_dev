@@ -16,3 +16,11 @@ export const useQuestionRefreshStore = defineStore('questionRefresh', () => {
     }
     return {status, changeStatus}
 })
+
+export const useAssignmentRefreshStore = defineStore('assignmentRefresh', () => {
+    const status = ref(true)
+    function changeStatus() {
+        status.value = !status.value
+    }
+    return {status, changeStatus}
+})

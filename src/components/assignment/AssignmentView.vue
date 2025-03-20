@@ -6,6 +6,10 @@
         questionList: {
             type: Array,
             required: true
+        },
+        scores: {
+            type: Array,
+            required: true
         }
     })
     const answers = []
@@ -21,6 +25,9 @@
                 <span>{{ i + 1 }}.</span>
             </div>
             <question-view :question="q.content" :type="q.questionType" :index="i" :collect="collect"/>
+            <div class="assignment-item-score">
+                <span>{{ scores[i] }} 分</span>
+            </div>
         </div>
         <div class="assignment-bottom">
             <div class="submit-assignment-button submit">
@@ -48,6 +55,13 @@
         font-weight: bold;
         color: var(--el-color-info-dark-2);
         width: 20px;
+    }
+    .assignment-item-score {
+        margin-top: 10px;
+        font-size: 12px;
+        font-weight: bold;
+        color: var(--el-color-info-dark-2);
+        width: 40px;
     }
     .submit-assignment-button {
         display: flex;

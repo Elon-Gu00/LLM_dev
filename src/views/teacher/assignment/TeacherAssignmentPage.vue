@@ -5,7 +5,7 @@ import {ref, onMounted, watch} from "vue"
     import {router} from "@/router/index.js";
     import {apiGetQuestion} from "@/apis/questionApis.js";
     import {ElMessage} from "element-plus";
-import {useQuestionRefreshStore} from "@/stores/index.js";
+import {useAssignmentRefreshStore, useQuestionRefreshStore} from "@/stores/index.js";
 import {apiAssignmentOfTeacher} from "@/apis/assignmentApis.js";
     const assignmentList = ref([])
     const goto = (path) => {
@@ -30,7 +30,7 @@ import {apiAssignmentOfTeacher} from "@/apis/assignmentApis.js";
     onMounted(() => {
         setAssignmentList()
     })
-    const refresh = useQuestionRefreshStore()
+    const refresh = useAssignmentRefreshStore()
     watch(refresh, () => {
         setAssignmentList()
     })

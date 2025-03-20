@@ -8,7 +8,10 @@
     import AssignmentListItem from "@/components/assignment/AssignmentListItem.vue";
     import QuestionExplorer from "@/components/assignment/QuestionExplorer.vue";
     import AssignmentView from "@/components/assignment/AssignmentView.vue";
+    import {apiAddAssignment, apiAddAssignmentQuestion} from "@/apis/assignmentApis.js";
+    import {useAssignmentRefreshStore} from "@/stores/index.js";
     const assignmentName = ref("")
+    const assignmentDescription = ref("")
     const questionExplorerShow = ref(false)
     const questionList = ref({
         choice: [],
@@ -49,12 +52,60 @@
         setQuestionList()
     })
     const selected = ref([])
+    const scores = ref([])
     const addQuestion = (question) => {
         selected.value.push(question)
+        scores.value.push(0)
         questionExplorerShow.value = !questionExplorerShow.value
+    }
+    const setScore = (ind, score) => {
+        scores.value[ind] = score
     }
     const removeQuestion = (ind) => {
         selected.value.splice(ind, 1)
+        scores.value.splice(ind, 1)
+    }
+    const check = () => {
+        if (assignmentName.value === '') {
+            ElMessage.warning('请设置作业名称')
+            return false
+        }
+        if (selected.value.length === 0) {
+            ElMessage.warning('请添加题目')
+            return false
+        }
+        return true
+    }
+    const addAssignment = async () => {
+        if (!check()) return
+        let result = await apiAddAssignment({
+            teacherId: teacherId,
+            title: assignmentName.value,
+            description: assignmentDescription.value
+        })
+        if (result.code === 1) {
+            useAssignmentRefreshStore().changeStatus()
+            ElMessage.success('作业模版已创建，正在添加题目...')
+            const assignmentId = result.data
+            const list = []
+            for (let i = 0; i < selected.value.length; i++) {
+                list.push({
+                    questionId: selected.value[i].questionId,
+                    score: scores.value[i],
+                    sortOrder: i + 1
+                })
+            }
+            result = await apiAddAssignmentQuestion(assignmentId, list)
+            if (result.code === 1) {
+                ElMessage.success('已保存')
+            }
+            else {
+                ElMessage.warning('添加题目遇到问题 >_<')
+            }
+        }
+        else {
+            ElMessage.warning(result.message)
+        }
     }
 </script>
 
@@ -68,7 +119,7 @@
                         <span>作业名</span>
                     </div>
                     <el-input v-model="assignmentName" maxlength="30" show-word-limit/>
-                    <div class="edit-assignment-button save">
+                    <div class="edit-assignment-button save" @click="addAssignment">
                         <span>保存</span>
                     </div>
                 </div>
@@ -78,7 +129,7 @@
                             <div class="input-bar-title margin-bottom-10">
                                 <span>作业描述</span>
                             </div>
-                            <el-input type="textarea" maxlength="300" show-word-limit />
+                            <el-input v-model="assignmentDescription" type="textarea" maxlength="300" show-word-limit />
                         </div>
                         <div class="edit-assignment-main">
                             <div class="input-bar-title margin-bottom-10">
@@ -88,7 +139,7 @@
                                 <div class="question-selector-header question-item-margin">
                                     <search-bar size="default" placeholder="搜索题目" />
                                 </div>
-                                <assignment-list-item v-for="(q, ind) in selected" class="question-item-margin" @click="removeQuestion(ind)">
+                                <assignment-list-item v-for="(q, ind) in selected" class="question-item-margin" :ind="ind" @remove="removeQuestion(ind)" @score="setScore">
                                     <template #index>{{ ind + 1 }}</template>
                                     <span>{{ q.content.title }}</span>
                                 </assignment-list-item>
@@ -111,7 +162,7 @@
                 </div>
                 <div class="height-level-4">
                     <el-scrollbar>
-                        <assignment-view :question-list="selected" />
+                        <assignment-view :question-list="selected" :scores="scores"/>
                     </el-scrollbar>
                 </div>
             </div>

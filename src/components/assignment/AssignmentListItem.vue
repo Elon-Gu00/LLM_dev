@@ -1,6 +1,15 @@
 <script setup>
 
-    const emits = defineEmits(['remove'])
+    import {ref} from "vue";
+
+    const emits = defineEmits(['remove', 'score'])
+    const score = ref()
+    const props = defineProps({
+        ind: {
+            type: Number,
+            required: true
+        }
+    })
 
 </script>
 
@@ -11,6 +20,9 @@
         </div>
         <div class="content">
             <slot name="default" />
+        </div>
+        <div class="score">
+            <el-input v-model="score" type="number" size="small" placeholder="分值" @blur="emits('score', ind, score)" />
         </div>
         <div class="remove-button" @click="emits('remove')">
             <span>移除</span>
@@ -45,6 +57,10 @@
         flex: auto;
         justify-content: left;
         align-items: center;
+    }
+    .score {
+        width: 60px;
+        margin-right: 10px;
     }
     .remove-button {
         height: 20px;

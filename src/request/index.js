@@ -1,6 +1,7 @@
 import axios from "axios"
 import {ElMessage} from "element-plus"
 import {router} from "@/router/index.js"
+import {inject} from "vue"
 
 const baseURL = "/api"
 const instance = axios.create({ baseURL })
@@ -21,7 +22,7 @@ instance.interceptors.request.use(
 instance.interceptors.response.use(
     response => {
         if (response.status === 200) {
-            console.log(response.data)
+            console.log(response.data, response.request.responseURL)
             return response.data
         } else {
             ElMessage.error(response.data.message ? response.data.message : "SERVER_ERROR")
