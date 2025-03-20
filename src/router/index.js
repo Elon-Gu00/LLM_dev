@@ -56,7 +56,7 @@ export const router = createRouter({
                             component: AddAssignmentPage
                         },
                         {
-                            path: 'edit/:questionId',
+                            path: 'edit/:assignmentId',
                             component: EditAssignmentPage
                         }
                     ]

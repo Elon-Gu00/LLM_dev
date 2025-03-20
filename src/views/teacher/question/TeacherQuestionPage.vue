@@ -7,6 +7,7 @@ import {ref, onMounted, watch} from "vue"
     import {ElMessage} from "element-plus";
     import {useQuestionRefreshStore} from "@/stores/index.js"
     const questionList = ref({
+        all: [],
         choice: [],
         fillBlank: [],
         essay: [],
@@ -32,6 +33,7 @@ import {ref, onMounted, watch} from "vue"
             data.forEach(item => {
                 item.content = JSON.parse(item.content)
                 item.answer = JSON.parse(item.answer)
+                questionList.value.all.push(item)
                 if (item.questionType === 'choice') {
                     questionList.value.choice.push(item)
                 }

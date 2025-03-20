@@ -5,8 +5,8 @@ import {ref, onMounted, watch} from "vue"
     import {router} from "@/router/index.js";
     import {apiGetQuestion} from "@/apis/questionApis.js";
     import {ElMessage} from "element-plus";
-import {useAssignmentRefreshStore, useQuestionRefreshStore} from "@/stores/index.js";
-import {apiAssignmentOfTeacher} from "@/apis/assignmentApis.js";
+    import {useAssignmentRefreshStore, useQuestionRefreshStore} from "@/stores/index.js";
+    import {apiAssignmentOfTeacher} from "@/apis/assignmentApis.js";
     const assignmentList = ref([])
     const goto = (path) => {
         const item = router.currentRoute.value.path.split('/')
@@ -27,9 +27,6 @@ import {apiAssignmentOfTeacher} from "@/apis/assignmentApis.js";
             ElMessage.warning(result.message)
         }
     }
-    onMounted(() => {
-        setAssignmentList()
-    })
     const refresh = useAssignmentRefreshStore()
     watch(refresh, () => {
         setAssignmentList()
@@ -62,7 +59,7 @@ import {apiAssignmentOfTeacher} from "@/apis/assignmentApis.js";
                                 <el-icon><Plus /></el-icon>
                                 <span>添加模版</span>
                             </el-menu-item>
-                            <el-menu-item v-for="(item) in assignmentList" :index="item.assignmentId" @click="goto('/edit/' + item.questionId)">
+                            <el-menu-item v-for="(item) in assignmentList" :index="item.assignmentId" @click="goto('/edit/' + item.assignmentId)">
                                 <el-text truncated>{{ item.title }}</el-text>
                             </el-menu-item>
                         </el-sub-menu>

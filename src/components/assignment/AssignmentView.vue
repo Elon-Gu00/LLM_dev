@@ -10,12 +10,17 @@
         scores: {
             type: Array,
             required: true
+        },
+        showSubmit: {
+            type: Boolean,
+            default: true
         }
     })
     const answers = []
     const collect = (i, ans) => {
         answers[i] = ans
     }
+    const emits = defineEmits(['submit'])
 </script>
 
 <template>
@@ -29,8 +34,8 @@
                 <span>{{ scores[i] }} 分</span>
             </div>
         </div>
-        <div class="assignment-bottom">
-            <div class="submit-assignment-button submit">
+        <div class="assignment-bottom" v-if="showSubmit">
+            <div class="submit-assignment-button submit" @click="emits('submit', answers)">
                 <span>提交</span>
             </div>
         </div>

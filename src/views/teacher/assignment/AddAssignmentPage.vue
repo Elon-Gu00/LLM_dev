@@ -162,7 +162,7 @@
                 </div>
                 <div class="height-level-4">
                     <el-scrollbar>
-                        <assignment-view :question-list="selected" :scores="scores"/>
+                        <assignment-view :question-list="selected" :scores="scores" :show-submit="false"/>
                     </el-scrollbar>
                 </div>
             </div>

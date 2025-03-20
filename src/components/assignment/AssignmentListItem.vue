@@ -3,13 +3,17 @@
     import {ref} from "vue";
 
     const emits = defineEmits(['remove', 'score'])
-    const score = ref()
     const props = defineProps({
         ind: {
             type: Number,
             required: true
+        },
+        score: {
+            type: Number,
+            default: 0
         }
     })
+    const score = ref(props.score)
 
 </script>
 
